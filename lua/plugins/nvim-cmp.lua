@@ -62,9 +62,6 @@ return {
         and not ctx.in_treesitter_capture("number")
     end,
     mapping = make_mapping(),
-    completion = {
-      keyword_length = 4,
-    },
     matching = {
       disallow_fuzzy_matching = false,
       disallow_fullfuzzy_matching = false,
@@ -73,5 +70,14 @@ return {
     experimental = {
       ghost_text = false
     },
-  }
+    sources = {
+      {
+        name = 'nvim_lsp',
+        entry_filter = function(entry, _)
+          local kind = require('cmp.types').lsp.CompletionItemKind[entry:get_kind()]
+          return kind ~= 'Text' and kind ~= 'Keyword'
+        end
+      },
+    },
+  },
 }
