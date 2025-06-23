@@ -32,8 +32,11 @@ return {
   "nvim-lualine/lualine.nvim",
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   opts = {
-    -- We only really care to update the line on events, not over time.
-    refresh_time = 100,
+    options = {
+      -- We only really care to update the line on events, not over time.
+      refresh_time = 100,
+      globalstatus = true,
+    },
     sections = {
       lualine_a = {'mode'},
       lualine_b = {'branch', 'filename'},
