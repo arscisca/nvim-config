@@ -4,4 +4,7 @@ return {
       "mason-org/mason.nvim",
       "neovim/nvim-lspconfig",
   },
+  opts = {
+    automatic_enable = true,
+  }
 }
