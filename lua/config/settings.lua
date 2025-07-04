@@ -1,6 +1,7 @@
 -- Formatting
 vim.g.autoformat = false
 
+-- Indentation
 vim.o.autoindent = true
 vim.o.smartindent = true
 vim.o.smarttab = true     -- Tab inserts blanks according to following settings.
@@ -14,12 +15,14 @@ vim.o.softtabstop = 0     -- Inherit from tabstop.
 vim.wo.relativenumber = true
 vim.wo.number = true
 vim.wo.cursorline = true
--- Command line
-vim.g.cmdheight = 0
+vim.wo.wrap = false
 
 -- Leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+-- Movement
+vim.o.whichwrap = "<,>,[,]"
 
 -- Custom keymaps
 require('config.keymaps')
