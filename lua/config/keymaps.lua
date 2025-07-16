@@ -28,22 +28,18 @@ local keymaps = {
     {"<leader>mb", "<cmd>MarksListAll<CR>", desc = "List buf marks"},
     {"<leader>mB", "<cmd>delmarks!<CR>", desc = "Delete buf marks"},
   },
-
-  {
-    mode = "n",
-    {"<leader>g", group = "Git"},
-  },
 }
 
 -- Telescope.
-local ts = require("telescope.builtin")
+local ts_ok, ts = pcall(require, "telescope.builtin")
 table.insert(
   keymaps,
   {
     mode = "n",
+    cond = ts_ok,
     {"<leader><space>", function() ts.find_files() end, desc = "Find files"},
     {"<leader>/", function() ts.live_grep({grep_open_files=true}) end, desc = "Live grep" },
-    {"<leader>#", function() ts.grep_string() end, desc="Grep cursor/selection"},
+    {"<leader>*", function() ts.grep_string() end, mode = {"n", "v"}, desc="Grep cursor/selection"},
 
     {"<leader>t", group = "Telescope"},
     {"<leader>to", function() ts.live_grep({grep_open_files=true}) end, desc = "Live grep open files" },
@@ -91,11 +87,12 @@ table.insert(
 
 
 -- Gitsigns.
-local gs = require("gitsigns")
+local gs_ok, gs = pcall(require, "gitsigns")
 table.insert(
   keymaps,
   {
     mode = "n",
+    cond = gs_ok,
     {
       "]h",
       function()
@@ -120,6 +117,7 @@ table.insert(
     },
     {
       mode = {"n", "v"},
+      {"<leader>g",  group = "Git"},
       {"<leader>gt", "<cmd>Gitsigns toggle_signs<CR>",                               desc = "Toggle git"},
       {"<leader>gR", gs.reset_buffer,                                                desc = "Reset"},
       {"<leader>gr", "<cmd>Gitsigns reset_hunk<CR>",                                 desc = "Reset hunk"},
