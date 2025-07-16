@@ -16,8 +16,5 @@ return {
       topdelete = { text = "" },
       changedelete = { text = "▎" },
     },
-    on_attach = function(buffer)
-      require("config.keymaps").gitsigns(buffer)
-    end
   },
 }

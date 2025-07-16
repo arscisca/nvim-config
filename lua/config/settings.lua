@@ -23,6 +23,3 @@ vim.g.maplocalleader = " "
 
 -- Movement
 vim.o.whichwrap = "<,>,[,]"
-
--- Custom keymaps
-require('config.keymaps')
