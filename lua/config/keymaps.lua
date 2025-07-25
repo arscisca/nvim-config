@@ -30,6 +30,67 @@ local keymaps = {
   },
 }
 
+-- Grep.
+local function get_grep_replace_pattern(grep, replace, confirm)
+  local confirm_flag = confirm and "c" or "" 
+  local separator = "/"
+  local escaped_separator = "\\" .. separator
+  local replace_pattern = separator .. table.concat(
+    {grep:gsub(separator, escaped_separator), replace:gsub(separator, escaped_separator), "g" .. confirm_flag},
+    separator
+  )
+  return replace_pattern
+end
+
+local function grep_replace_buf(grep, replace, confirm)
+  local replace_pattern = get_grep_replace_pattern(grep, replace, confirm)
+  vim.api.nvim_cmd({cmd = "s", args = {replace_pattern}, range = {0, vim.fn.line('$')}}, {})
+end
+
+local function grep_replace_global(grep, replace, confirm)
+  local replace_pattern = get_grep_replace_pattern(grep, replace, confirm)
+  -- Run :grep and then :cfdo %s
+  vim.api.nvim_cmd({
+    cmd = "grep",
+    args = {grep},
+    mods = {silent = true, emsg_silent = true}
+  }, {})
+  vim.api.nvim_cmd({
+    cmd = "cfdo",
+    args = {"%s", replace_pattern}
+  }, {})
+end
+
+table.insert(
+  keymaps,
+  {
+    mode = "n",
+    {"<leader>g", group = "grep"},
+    {
+      "<leader>gr",
+      function()
+        local grep;
+        local replace;
+        vim.ui.input({prompt="Grep: "}, function(input) grep = input end)
+        vim.ui.input({prompt="Grep: " .. grep .. "\nReplace: "}, function(input) replace = input end)
+        grep_replace_buf(grep, replace, true)
+      end,
+      desc="Grep and replace (buffer)",
+    },
+    {
+      "<leader>gR",
+      function()
+        local grep;
+        local replace;
+        vim.ui.input({prompt="Grep: "}, function(input) grep = input end)
+        vim.ui.input({prompt="Grep: " .. grep .. "\nReplace: "}, function(input) replace = input end)
+        grep_replace_global(grep, replace, true)
+      end,
+      desc="Grep and replace (global)",
+    },
+  }
+)
+
 -- Telescope.
 local ts_ok, ts = pcall(require, "telescope.builtin")
 table.insert(
@@ -38,7 +99,7 @@ table.insert(
     mode = "n",
     cond = ts_ok,
     {"<leader><space>", function() ts.find_files() end, desc = "Find files"},
-    {"<leader>/", function() ts.live_grep({grep_open_files=true}) end, desc = "Live grep" },
+    {"<leader>/", function() ts.live_grep() end, desc = "Live grep" },
     {"<leader>*", function() ts.grep_string() end, mode = {"n", "v"}, desc="Grep cursor/selection"},
 
     {"<leader>t", group = "Telescope"},
@@ -81,7 +142,7 @@ table.insert(
     mode = "n",
     {"<leader>l", group = "LSP"},
     {"<leader>lt", function() toggle_lsp_in_buf(vim.api.nvim_get_current_buf()) end, desc = "Toggle LSP in buffer"},
-    {"<leader>ldt", function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, desc = "Toggle diagnostics"},
+    {"<leader>ld", function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, desc = "Toggle diagnostics"},
   }
 )
 
@@ -117,13 +178,23 @@ table.insert(
     },
     {
       mode = {"n", "v"},
-      {"<leader>g",  group = "Git"},
-      {"<leader>gt", "<cmd>Gitsigns toggle_signs<CR>",                               desc = "Toggle git"},
-      {"<leader>gR", gs.reset_buffer,                                                desc = "Reset"},
-      {"<leader>gr", "<cmd>Gitsigns reset_hunk<CR>",                                 desc = "Reset hunk"},
-      {"<leader>gb", function() require("gitsigns").blame_line({ full = true }) end, desc = "Blame line"},
-      {"<leader>gB", function() gs.blame() end,                                      desc = "Blame"},
-      {"<leader>gd", gs.diffthis,                                                    desc = "Diff"},
+      {"<leader>G",  group = "Git"},
+      {"<leader>Gt", "<cmd>Gitsigns toggle_signs<CR>",              desc = "Toggle git"},
+      {"<leader>GR",
+        function() 
+          local confirmed = vim.fn.confirm("Reset buffer?", "&Yes\n&No", 0)
+          if confirmed == 1 then
+            gs.reset_buffer()
+          else
+            print("Cancelled")
+          end
+        end,
+        desc = "Reset buffer"
+      },
+      {"<leader>Gr", "<cmd>Gitsigns reset_hunk<CR>",                desc = "Reset hunk"},
+      {"<leader>Gb", function() gs.blame_line({ full = true }) end, desc = "Blame line"},
+      {"<leader>GB", function() gs.blame() end,                     desc = "Blame"},
+      {"<leader>Gd", gs.diffthis,                                   desc = "Diff"},
     },
   }
 )
