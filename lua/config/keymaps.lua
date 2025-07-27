@@ -143,6 +143,7 @@ table.insert(
     {"<leader>l", group = "LSP"},
     {"<leader>lt", function() toggle_lsp_in_buf(vim.api.nvim_get_current_buf()) end, desc = "Toggle LSP in buffer"},
     {"<leader>ld", function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, desc = "Toggle diagnostics"},
+    {"<leader>lf", function() vim.diagnostic.open_float() end, desc = "Open diagnostics float"},
   }
 )
 

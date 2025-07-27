@@ -5,8 +5,9 @@ return {
   config = function()
     vim.diagnostic.config({
       underline = false,
-      virtual_text = false,
-      virtual_lines = true,
+      virtual_text = true,
+      virtual_lines = false,
+      float = {},
       signs = false,
     })
   end,
