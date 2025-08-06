@@ -20,6 +20,8 @@ local keymaps = {
       {"<M-j>",       "<cmd>wincmd j<CR>", desc = "Go to down window"},
       {"<M-k>",       "<cmd>wincmd k<CR>", desc = "Go to up window"},
       {"<M-l>",       "<cmd>wincmd l<CR>", desc = "Go to right window"},
+      {"<M-s>",       "<cmd>wincmd s<CR>", desc = "Split horizontally"},
+      {"<M-v>",       "<cmd>wincmd v<CR>", desc = "Split vertically"},
     },
   },
   -- Markers.
