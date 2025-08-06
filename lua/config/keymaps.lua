@@ -5,18 +5,21 @@ local keymaps = {
   {
     mode = "n",
     {"<leader>e", "<cmd>Neotree<CR>", desc = "Open file explorer" },
-    -- Window / tab cycling.
-    {"<Tab>",     "<cmd>wincmd w<CR>", desc = "Cycle window"},
-    {"<S-Tab>",   "<cmd>wincmd W<CR>", desc = "Inv-cycle window"},
-    {"<M-Tab>",   "<cmd>gt<CR>", desc = "Cycle tab"},
-    {"<S-M-Tab>", "<cmd>gT<CR>", desc = "Inv-cycle tab"},
+    -- Tab navigation.
+    {
+      mode = {"n", "i"},
+      group = "Tab navigation",
+      {"<M-Tab>", "gt", desc = "Go to next tab"},
+      {"<M-S-Tab>", "gT", desc = "Go to prev tab"},
+    },
     -- Window navigation.
     {
       mode = {"n", "i"},
-      {"M-h",       "<cmd>wincmd h<CR>", desc = "Go to left window"},
-      {"M-j",       "<cmd>wincmd j<CR>", desc = "Go to down window"},
-      {"M-k",       "<cmd>wincmd k<CR>", desc = "Go to up window"},
-      {"M-l",       "<cmd>wincmd l<CR>", desc = "Go to right window"},
+      group = "Window navigation",
+      {"<M-h>",       "<cmd>wincmd h<CR>", desc = "Go to left window"},
+      {"<M-j>",       "<cmd>wincmd j<CR>", desc = "Go to down window"},
+      {"<M-k>",       "<cmd>wincmd k<CR>", desc = "Go to up window"},
+      {"<M-l>",       "<cmd>wincmd l<CR>", desc = "Go to right window"},
     },
   },
   -- Markers.
