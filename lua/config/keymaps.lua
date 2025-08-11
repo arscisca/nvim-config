@@ -70,9 +70,9 @@ table.insert(
   keymaps,
   {
     mode = "n",
-    {"<leader>g", group = "grep"},
+    {"<leader>G", group = "grep"},
     {
-      "<leader>gr",
+      "<leader>Gr",
       function()
         local grep;
         local replace;
@@ -83,7 +83,7 @@ table.insert(
       desc="Grep and replace (buffer)",
     },
     {
-      "<leader>gR",
+      "<leader>GR",
       function()
         local grep;
         local replace;
@@ -184,9 +184,9 @@ table.insert(
     },
     {
       mode = {"n", "v"},
-      {"<leader>G",  group = "Git"},
-      {"<leader>Gt", "<cmd>Gitsigns toggle_signs<CR>",              desc = "Toggle git"},
-      {"<leader>GR",
+      {"<leader>g",  group = "Git"},
+      {"<leader>gt", "<cmd>Gitsigns toggle_signs<CR>",              desc = "Toggle git"},
+      {"<leader>gR",
         function() 
           local confirmed = vim.fn.confirm("Reset buffer?", "&Yes\n&No", 0)
           if confirmed == 1 then
@@ -197,10 +197,10 @@ table.insert(
         end,
         desc = "Reset buffer"
       },
-      {"<leader>Gr", "<cmd>Gitsigns reset_hunk<CR>",                desc = "Reset hunk"},
-      {"<leader>Gb", function() gs.blame_line({ full = true }) end, desc = "Blame line"},
-      {"<leader>GB", function() gs.blame() end,                     desc = "Blame"},
-      {"<leader>Gd", gs.diffthis,                                   desc = "Diff"},
+      {"<leader>gr", "<cmd>Gitsigns reset_hunk<CR>",                desc = "Reset hunk"},
+      {"<leader>gb", function() gs.blame_line({ full = true }) end, desc = "Blame line"},
+      {"<leader>gB", function() gs.blame() end,                     desc = "Blame"},
+      {"<leader>gd", gs.diffthis,                                   desc = "Diff"},
     },
   }
 )
