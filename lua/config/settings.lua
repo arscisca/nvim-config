@@ -16,6 +16,8 @@ vim.wo.relativenumber = true
 vim.wo.number = true
 vim.wo.cursorline = true
 vim.wo.wrap = false
+-- Floating windows
+vim.o.winborder='single'
 
 -- Leader
 vim.g.mapleader = " "
