@@ -25,3 +25,6 @@ vim.g.maplocalleader = " "
 
 -- Movement
 vim.o.whichwrap = "<,>,[,]"
+
+-- Autocompletion
+vim.opt.completeopt = {"menuone", "noselect", "popup"}

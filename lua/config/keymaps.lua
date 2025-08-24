@@ -152,6 +152,14 @@ table.insert(
   }
 )
 
+-- Autocompletion
+table.insert(
+  keymaps,
+  {
+    mode = "i",
+    {"<c-space>", function() vim.lsp.completion.get() end, desc = "Trigger autocomplete"},
+  }
+)
 
 -- Gitsigns.
 local gs_ok, gs = pcall(require, "gitsigns")

@@ -13,9 +13,4 @@ return {
   end,
   opts = {
   },
-  init = function()
-    package.loaded["export"] = {
-      toggle_lsp_in_buf = toggle_lsp_in_buf,
-    }
-  end,
 }
