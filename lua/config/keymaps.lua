@@ -7,7 +7,6 @@ local keymaps = {
     {"<leader>e", "<cmd>Neotree<CR>", desc = "Open file explorer" },
     -- Tab navigation.
     {
-      mode = {"n", "i"},
       group = "Tab navigation",
       {"<M-Tab>", "gt", desc = "Go to next tab"},
       {"<M-S-Tab>", "gT", desc = "Go to prev tab"},
@@ -157,7 +156,34 @@ table.insert(
   keymaps,
   {
     mode = "i",
-    {"<c-space>", function() vim.lsp.completion.get() end, desc = "Trigger autocomplete"},
+    expr = true,
+    silent = true,
+    noremap = true,
+    {"<m-space>", function() vim.lsp.completion.get() end, desc = "Trigger autocomplete"},
+    {
+      "<m-tab>",
+      function()
+        if vim.fn.pumvisible() == 1 then
+          return "<C-n>"
+        else
+          vim.lsp.completion.get()
+          return ""
+        end
+      end,
+      desc = "Next autocompletion suggestion",
+    },
+    {
+      "<m-s-tab>",
+      function()
+        if vim.fn.pumvisible() == 1 then
+          return "<C-p>"
+        else
+          vim.lsp.completion.get()
+          return ""
+        end
+      end,
+      desc = "Prev autocompletion suggestion"
+    },
   }
 )
 

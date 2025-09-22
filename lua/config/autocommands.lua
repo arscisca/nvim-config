@@ -33,23 +33,25 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 -- Autocompletion on LSP attach.
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('lsp.config', {clear = false}),
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client:supports_method('textDocument/completion') then
-      vim.lsp.completion.enable(true, client.id, args.buf, {
+local aug = vim.api.nvim_create_augroup("UserLspNativeCompletion", { clear = true })
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = aug,
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client and client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, ev.buf, {
         autotrigger = true,
+        keyword_pattern = [[\k\+]],
         convert = function(item)
-          return { abbr = item.label:gsub('%b()', '') }
+          return { abbr = (item.label or ""):gsub('%b()', '') }
         end,
       })
     end
-  end
+  end,
 })
 
 vim.api.nvim_create_autocmd('LspDetach', {
-  group = vim.api.nvim_create_augroup('lsp.config', {clear = true}),
+  group = aug,
   callback = function(args)
   end,
 })
