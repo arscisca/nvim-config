@@ -11,6 +11,7 @@ vim.o.shiftwidth = 0      -- Inherit from tabstop.
 vim.o.softtabstop = 0     -- Inherit from tabstop.
 
 -- General look
+vim.o.termguicolors = true
 -- Line appearance
 vim.wo.relativenumber = true
 vim.wo.number = true

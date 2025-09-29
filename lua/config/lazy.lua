@@ -21,8 +21,8 @@ require("config.settings")
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
+    { import = "themes" },
     { import = "plugins" },
   },
-  install = { colorscheme = { "gruvbox" } },
   checker = { enabled = true, notify = false },
 })
