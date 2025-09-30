@@ -1,3 +1,14 @@
+local get_file_size = function(buf)
+  local fname = vim.api.nvim_buf_get_name(buf)
+  local fsize = vim.fn.getfsize(fname)
+  return fsize
+end
+
+local is_file_big = function(buf)
+  local BIG_FILE_SIZE = 1024 * 1024  -- 1 MiB
+  return (get_file_size(buf) >= BIG_FILE_SIZE)
+end
+
 -- Change tabsize based on filetype.
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'lua', 'html' },
@@ -12,10 +23,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     local ts = require('nvim-treesitter')
 
     -- Is this buffer too big?
-    local fname = vim.api.nvim_buf_get_name(0)
-    local fsize = vim.fn.getfsize(fname)
-    local maxsize = 1024 * 1024  -- 1 MiB
-    if fsize > maxsize then
+    if is_file_big(0) then
         return
     end
 
@@ -29,6 +37,16 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.treesitter.start()
     vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
+-- On large files, disable line numbers when first opening them.
+vim.api.nvim_create_autocmd('BufRead', {
+  callback = function()
+    if is_file_big(0) then
+      vim.wo.relativenumber = false
+      vim.wo.number = false
+    end
   end,
 })
 
