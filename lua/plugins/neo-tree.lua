@@ -7,5 +7,8 @@ return {
   },
   lazy = false, -- neo-tree will lazily load itself
   opts = {
+    source_selector = {
+      winbar = true,
+    },
   },
 }
