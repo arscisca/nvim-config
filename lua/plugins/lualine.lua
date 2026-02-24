@@ -12,10 +12,20 @@ local nodes_by_language = {
       impl_item = "type",
       struct_item = "name",
   },
+  c = {
+      function_definition = "declarator",
+      type_definition = "declarator",
+      struct_specifier = "name",
+      union_specifier = "name",
+      preproc_function_def = "name",
+      preproc_def = "name",
+  }
 }
 
 
-local function breadcrumbs(filter)
+local function collect_breadcrumbs(filter)
+  -- Collect the breadcrumbs, starting from the current node and moving up.
+  -- Whenever a node's type matches `filter`, store it as a breadcrumb.
   local node = vim.treesitter.get_node()
   local breadcrumbs = {}
   while node do
@@ -44,9 +54,9 @@ return {
         -- Collect breadcrumbs with treesitter.
         function()
           local node_types_to_catch = nodes_by_language[vim.o.filetype] or nodes_by_language.general
-          local breadcrumbs = breadcrumbs(node_types_to_catch)
+          local breadcrumbs = collect_breadcrumbs(node_types_to_catch)
           local names = {}
-          for i, breadcrumb in pairs(breadcrumbs) do
+          for _, breadcrumb in pairs(breadcrumbs) do
             local field = node_types_to_catch[breadcrumb:type()]
             local name = breadcrumb:field(field)[1]
             local text = vim.treesitter.get_node_text(name, 0) or breadcrumb:type()
