@@ -4,6 +4,7 @@ return {
       "mason-org/mason.nvim",
       "neovim/nvim-lspconfig",
   },
+  event = "VeryLazy",
   opts = {
     automatic_enable = true,
   }
