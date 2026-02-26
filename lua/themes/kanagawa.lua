@@ -29,6 +29,6 @@ return {
     end,
     transparent = false,
     dimInactive = false,
-    terminalColors = true,
+    terminalColors = false,
   }
 }
