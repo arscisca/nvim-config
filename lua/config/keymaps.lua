@@ -11,6 +11,11 @@ local keymaps = {
       {"<M-Tab>", "gt", desc = "Go to next tab"},
       {"<M-S-Tab>", "gT", desc = "Go to prev tab"},
     },
+    -- Terminal.
+    {
+      mode = "t",
+      {"<M-Esc>", "<C-\\><C-n>", desc = "Esc (terminal)"},
+    },
     -- Window navigation.
     {
       mode = {"n", "i"},
