@@ -23,6 +23,7 @@ require("lazy").setup({
   spec = {
     { import = "themes" },
     { import = "plugins" },
+    { import = "local.plugins" },
   },
   checker = { enabled = true, notify = false },
 })

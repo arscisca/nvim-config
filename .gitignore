@@ -2,3 +2,4 @@ lazy-lock.json
 
 # Local config overrides.
 local/
+lua/local/
