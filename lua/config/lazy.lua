@@ -23,7 +23,17 @@ require("lazy").setup({
   spec = {
     { import = "themes" },
     { import = "plugins" },
-    { import = "local.plugins" },
+    {
+      import = "local.plugins",
+      -- Local plugin specs are optional on each machine.
+      enabled = function()
+        local found = false
+        require("lazy.core.util").lsmod("local.plugins", function()
+          found = true
+        end)
+        return found
+      end,
+    },
   },
   checker = { enabled = true, notify = false },
 })
