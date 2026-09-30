@@ -40,6 +40,18 @@ vim.api.nvim_create_autocmd('BufEnter', {
   end,
 })
 
+-- Set up treesitter folding.
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = vim.treesitter.language.get_filetypes(),
+  callback = function()
+    vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    vim.wo.foldmethod = 'expr'
+
+    -- Start all unfolded
+    vim.wo.foldlevel = 99
+  end,
+})
+
 -- On large files, disable line numbers when first opening them.
 vim.api.nvim_create_autocmd('BufRead', {
   callback = function()
