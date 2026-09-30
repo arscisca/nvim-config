@@ -28,7 +28,12 @@ vim.g.maplocalleader = " "
 vim.o.whichwrap = "<,>,[,]"
 
 -- Autocompletion
-vim.opt.completeopt = {"menuone", "noselect", "popup"}
+vim.opt.completeopt = { "menuone", "noselect", "popup" }
+vim.opt.pumheight = 10
+if vim.fn.has("nvim-0.12") == 1 then
+  vim.opt.autocompletedelay = 200
+  vim.opt.pummaxwidth = 80
+end
 
 -- Custom formatting of the quickfix list.
 local qf_error_map = {

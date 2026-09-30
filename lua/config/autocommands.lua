@@ -57,19 +57,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if client and client:supports_method('textDocument/completion') then
+      -- Builtin 'autocomplete' causes cursor lag; use LSP trigger characters instead.
+      if vim.fn.has("nvim-0.12") == 1 then
+        vim.bo[ev.buf].autocomplete = false
+      end
       vim.lsp.completion.enable(true, client.id, ev.buf, {
         autotrigger = true,
-        keyword_pattern = [[\k\+]],
         convert = function(item)
           return { abbr = (item.label or ""):gsub('%b()', '') }
         end,
       })
     end
-  end,
-})
-
-vim.api.nvim_create_autocmd('LspDetach', {
-  group = aug,
-  callback = function(args)
   end,
 })

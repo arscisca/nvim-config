@@ -10,6 +10,4 @@ return {
       signs = false,
     })
   end,
-  opts = {
-  },
 }
